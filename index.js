@@ -37,6 +37,33 @@ async function run() {
             const fruit = await collection.findOne(query);
             res.send(fruit)
         })
+        //create fruit
+        app.post('/fruits', async (req, res) => {
+            const newFruit = req.body;
+            const result = await collection.insertOne(newFruit);
+            res.send(result)
+        })
+        //update fruit
+        app.put('/fruits/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedFruit = req.body;
+            const filter = { _id: ObjectId(id) };
+            const option = { upsert: true };
+            const updatedDoc = {
+                $set: { ...updatedFruit }
+
+            }
+            console.log(updatedDoc)
+            const result = await collection.updateOne(filter, updatedDoc, option);
+            res.send(result)
+        })
+        //Delete
+        app.delete('/fruits/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await collection.deleteOne(query);
+            res.send(result)
+        })
     }
     finally {
 
