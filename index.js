@@ -37,12 +37,26 @@ async function run() {
             const fruit = await collection.findOne(query);
             res.send(fruit)
         })
+        //get one user fruit
+        app.get('/fruit/:email', async (req, res) => {
+            console.log(req.params)
+            const email = req.params.email;
+            const query = { email: email };
+            const cursor = await collection.find(query);
+            const documents = await cursor.toArray()
+
+            console.log('hello')
+            res.send(documents)
+
+        })
+
         //create fruit
         app.post('/fruits', async (req, res) => {
             const newFruit = req.body;
             const result = await collection.insertOne(newFruit);
             res.send(result)
         })
+
         //update fruit
         app.put('/fruits/:id', async (req, res) => {
             const id = req.params.id;
