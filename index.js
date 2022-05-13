@@ -45,7 +45,7 @@ async function run() {
             const cursor = await collection.find(query);
             const documents = await cursor.toArray()
 
-            console.log('hello')
+
             res.send(documents)
 
         })
